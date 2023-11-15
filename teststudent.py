@@ -1,32 +1,67 @@
 # TODO: Fill this in
 
-def add_course (id, c_roster, c_max_size):
+def add_course(id, c_roster, c_max_size):
+    # bonus
+    enrolled = []
+    for item in c_roster:
+        if id in c_roster[item]:
+            enrolled.append(item)
+
+    print(f"You are current enrolled in: {', '.join(enrolled)}")
     currCourse = input('Enter course you want to add: ')
     if currCourse not in c_roster:
         print('Course not found')
     elif id in c_roster[currCourse]:
         print('You are already enrolled in that course.')
+        print(f"You are current enrolled in: {', '.join(enrolled)}")
     elif len(c_roster[currCourse]) == c_max_size[currCourse]:
         print('Course already full.')
+        print(f"You are current enrolled in: {', '.join(enrolled)}")
     else:
         c_roster[currCourse].append(id)
+        enrolled.append(currCourse)
         print('Course added')
+        print(f"You are current enrolled in: {', '.join(enrolled)}")
 
     print()
 
-def drop_course (id, c_roster):
-    currCourse = input('Enter course you want to drop: ')
-    if currCourse not in c_roster:
-        print('Course not found')
-    elif id not in c_roster[currCourse]:
-        print('You are not enrolled in that course.')
-    else:
-        c_roster[currCourse].remove(id)
-        print('Course dropped')
 
+# I add a new feature in this function to stop it to go out of the function when one of the options is used.
+# Function that allow the user drop a course.
+# It was a bonus feature that displays the courses which the user is enrolled.
+def drop_course(id, c_roster):
+    # bonus
+    enrolled = []
+    for item in c_roster:
+        if id in c_roster[item]:
+            enrolled.append(item)
+
+    print(f"You are current enrolled in: {', '.join(enrolled)}")
+
+    currCourse = input('Enter course you want to drop or 0 to go back to the menu: ')
+    while currCourse != '0':
+        if currCourse not in c_roster:
+            print('Course not found')
+            currCourse = input('Enter course you want to drop or 0 to go back to the menu: ')
+        elif id not in c_roster[currCourse]:
+            print('You are not enrolled in that course.')
+            # bonus
+            print(f"You are current enrolled in: {', '.join(enrolled)}")
+            currCourse = input('Enter course you want to drop or 0 to go back to the menu: ')
+        else:
+            c_roster[currCourse].remove(id)
+            # bonus
+            enrolled.remove(currCourse)
+            print('Course dropped')
+            # bonus
+            print(f"You are current enrolled in: {', '.join(enrolled)}")
+            print(f"Do you want to drop a new course?")
+            currCourse = input('Enter a new course you want to drop or 0 to go back to the menu: ')
     print()
 
-def list_courses (id, c_roster):
+
+#  Displays list of courses available.
+def list_courses(id, c_roster):
     print('Courses:')
     classes_count = 0
     for item in c_roster:
@@ -38,7 +73,9 @@ def list_courses (id, c_roster):
     print(f'Total courses enrolled: {classes_count}')
     print()
 
-def display_course_info (id, c_roster, c_hours, c_info, c_max_size):
+
+# Bonus function which displays information of the selected course.
+def display_course_info(id, c_roster, c_hours, c_info, c_max_size):
     currCourse = input('Enter course you want to view: ')
     if currCourse not in c_roster:
         print('Course not found')
